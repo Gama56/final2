@@ -71,19 +71,11 @@ public class ClienteDao {
     }
     
     
-    public void addcliente(Cliente c){
+    public void addcliente(Vendedor vendor){
         try{
            Connection conn = Dao.getConnection();
-           String query=null;
-           query="inser into tb_clientes(nombre,apellidos,dpi,direccion,telefono,edad,email)";
-           query+="values(";
-           query+="'"+c.getNombre()+"',";
-           query+="'"+c.getApellidos()+"',";
-           query+="'"+c.getDpi()+"',";
-           query+="'"+c.getDireccion()+"',";
-           query+="'"+c.getTelefono()+"',";
-           query+="'"+c.getEdad()+"',";
-           query+="'"+c.getEmail()+"');";
+           System.out.print(vendor);
+           String query="INSERT INTO vendedor(Nombres,Apellidos,Usuario,Contraseña) VALUES('"+vendor.getNombre()+"','"+vendor.getApellidos()+"','"+vendor.getUsuario()+"','"+vendor.getClave()+"')";
             ps= conn.prepareStatement(query);
             rs=ps.executeQuery();
         }catch(Exception e){

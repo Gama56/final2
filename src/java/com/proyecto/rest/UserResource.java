@@ -82,15 +82,21 @@ public class UserResource {
     
     
     @POST
-    @Path("add")
+    @Path("addVendedor/{nombre}/{apellido}/{usuario}/{clave}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addCliente(Cliente c) {
+    public Response addVendedor(@PathParam("nombre")String nombre, @PathParam("apellido")String apellido, 
+            @PathParam("usuario")String usuario, @PathParam("clave")String clave) {
         try{
-            System.out.println("Agregar cliente: "+c);
+            Vendedor vendor = new Vendedor();
+            vendor.setNombre(nombre);
+            vendor.setApellidos(apellido);
+            vendor.setUsuario(usuario);
+            vendor.setClave(clave);
+            
             UsarServicio services = new UsarServicio();
-            services.create(c);
-            //c=services.get(c);
-            String json="(\"id\":\""+c.getId()+"\"}";
+            services.createVendor(vendor);
+            
+            String json="(\"id\":\""+vendor.getClave()+"\"}";
             return Response.ok(json, MediaType.APPLICATION_JSON).build();
         }catch(Exception e){
             return Response.status(Response.Status.SEE_OTHER).entity("Error: "+e.toString()).build();
