@@ -6,6 +6,7 @@
 package com.proyecto.rest;
 
 import com.google.gson.Gson;
+import com.proyecto.bd.dao.ClienteDao;
 import com.proyecto.bd.entidades.Cliente;
 import com.proyecto.bd.entidades.Vendedor;
 import com.proyecto.bd.service.UsarServicio;
@@ -33,7 +34,7 @@ public class UserResource {
 
     @Context
     private UriInfo context;
-
+private ClienteDao clientedao;
     
     public UserResource() {
     }
@@ -82,6 +83,25 @@ public class UserResource {
     
     
     @POST
+    @Path("addVendedor")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String addVendedor(String json) {
+        try{
+            Gson gson = new Gson();
+            Vendedor vended = gson.fromJson(json, Vendedor.class);
+             UsarServicio services = new UsarServicio();
+            services.createVendor(vended);
+            String responseString = String.valueOf(vended.getNombre()+" "+ vended.getApellidos() +" "+ vended.getUsuario() +" "+vended.getClave());
+ 
+            return responseString;
+        }catch(Exception e){
+           // return Response.status(Response.Status.SEE_OTHER).entity("Errors: "+e.toString()).build();
+       } 
+        return null;
+        
+    }
+    
+    @POST
     @Path("addVendedor/{nombre}/{apellido}/{usuario}/{clave}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response addVendedor(@PathParam("nombre")String nombre, @PathParam("apellido")String apellido, 
@@ -94,8 +114,8 @@ public class UserResource {
             vendor.setClave(clave);
             
             UsarServicio services = new UsarServicio();
-            services.createVendor(vendor);
-            
+            //services.createVendor(vendor);
+           
             String json="(\"id\":\""+vendor.getClave()+"\"}";
             return Response.ok(json, MediaType.APPLICATION_JSON).build();
         }catch(Exception e){

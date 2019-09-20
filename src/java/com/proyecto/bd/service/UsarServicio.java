@@ -31,9 +31,9 @@ public class UsarServicio {
     public Vendedor getVendedor(String usuario, String Clave){
         return clientedao.getVendedor(usuario, Clave);
     }
-    public void createVendor(Vendedor vendor){
-        if(vendor==null)
+    public void createVendor(Vendedor vend){
+        if(vend==null)
             throw new NullPointerException("USUARIO NO PUEDE SER NULL");
-        clientedao.addcliente(vendor);
+        clientedao.addcliente(vend);
     }
 }

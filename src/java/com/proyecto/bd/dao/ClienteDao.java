@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class ClienteDao {
        PreparedStatement ps;
        ResultSet rs;
+       Statement stmt = null;
     public List <Cliente> getAll(){
         List<Cliente> clientes = new ArrayList<Cliente>();
         try{
@@ -56,6 +58,7 @@ public class ClienteDao {
         try{
               Connection conn = Dao.getConnection();
               String querito="SELECT * FROM cliente WHERE Nombres='"+nombres+"'";
+              
               ps= conn.prepareStatement(querito);
               rs=ps.executeQuery();
               if(rs.next()){
@@ -71,13 +74,15 @@ public class ClienteDao {
     }
     
     
-    public void addcliente(Vendedor vendor){
+    public void addcliente(Vendedor vendedor){
         try{
            Connection conn = Dao.getConnection();
-           System.out.print(vendor);
-           String query="INSERT INTO vendedor(Nombres,Apellidos,Usuario,Contraseña) VALUES('"+vendor.getNombre()+"','"+vendor.getApellidos()+"','"+vendor.getUsuario()+"','"+vendor.getClave()+"')";
-            ps= conn.prepareStatement(query);
-            rs=ps.executeQuery();
+           
+           String query="INSERT INTO `dbcredito`.`vendedor`(`Nombres`, `Apellidos`, `Usuario`, `Contraseña`) VALUES('"+vendedor.getNombre()+"','"+vendedor.getApellidos()+"','"+vendedor.getUsuario()+"','"+vendedor.getClave()+"');";
+           stmt = conn.createStatement();
+           stmt.execute(query);
+           // ps= conn.prepareStatement(query);
+            //rs=ps.executeQuery();
         }catch(Exception e){
             
         }
